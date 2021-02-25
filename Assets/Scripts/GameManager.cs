@@ -8,17 +8,22 @@ public class GameManager : MonoBehaviour
     public List<int> choice = new List<int>();
     public int jcJCounter = 0;
     public GameObject GameOver;
+    public Sprite xSprite;
+    public Sprite oSprite;
     AI ai = new AI();
+    public int matchNulCounter = 9;
 
     public void ComputerPlay() {
         MajChoice();
 
-        //int nr = choice[Random.Range(0, choice.Count)];
         int nr = ai.BestMove("O", matrix);
 
         GameObject.Find(nr.ToString()).transform.Find("Text").GetComponent<Text>().text = "O";
         matrix[nr] = "O";
-        //GameObject.Find(nr.ToString()).GetComponent<Button>().interactable = false;
+        Sprite sprite = GameObject.Find("Canvas").GetComponent<GameManager>().oSprite;
+        string btnName = nr.ToString();
+        Button myButton = GameObject.Find(btnName).GetComponent<Button>();
+        myButton.image.sprite = sprite;
 
         if (Verification("O"))
         {

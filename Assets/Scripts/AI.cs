@@ -6,6 +6,7 @@ public class AI
 {
     string[] tableau;
     List<int> choice = new List<int>();
+    
 
     public int BestMove(string player, string[] matrix)
     {

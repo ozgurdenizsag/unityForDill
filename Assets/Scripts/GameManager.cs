@@ -12,10 +12,29 @@ public class GameManager : MonoBehaviour
     public Sprite oSprite;
     AI ai = new AI();
     public int matchNulCounter = 9;
+    public Text joueurJoue;
+    public string isIa = "non";
+
+    public void Start()
+    {
+        isIa = "oui";
+    }
 
     public void ComputerPlay() {
-        MajChoice();
+        StartCoroutine(ExampleCoroutine());
+    }
 
+    IEnumerator ExampleCoroutine()
+    {
+        joueurJoue.GetComponent<Text>().text = "FSF joue..";
+        yield return new WaitForSeconds(2);
+        ComputerPlayed();
+        joueurJoue.GetComponent<Text>().text = "Joueur 1 joue..";
+    }
+
+    public void ComputerPlayed()
+    {
+        MajChoice();
         int nr = ai.BestMove("O", matrix);
 
         GameObject.Find(nr.ToString()).transform.Find("Text").GetComponent<Text>().text = "O";
@@ -28,7 +47,8 @@ public class GameManager : MonoBehaviour
         if (Verification("O"))
         {
             ShowPanel("O");
-        } else
+        }
+        else
         {
             MajChoice();
         }
@@ -76,8 +96,25 @@ public class GameManager : MonoBehaviour
 
     public void ShowPanel(string winner)
     {
+        string gagnant;
         GameOver.SetActive(true);
-        GameOver.transform.transform.Find("Text").GetComponent<Text>().text = "Winner " + winner;
+        if ("X".Equals(winner))
+        {
+            gagnant = "Joueur 1";
+        } else
+        {
+            if("oui".Equals(isIa))
+            {
+                gagnant = "FSF";
+            }else
+            {
+                gagnant = "Joueur 2";
+            }
+            
+        }
+        joueurJoue.enabled = false;
+        GameOver.transform.transform.Find("Text").GetComponent<Text>().text = "Gagnant " + gagnant;
+        
     }
 
 }

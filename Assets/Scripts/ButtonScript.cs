@@ -5,6 +5,12 @@ using UnityEngine.UI;
 
 public class ButtonScript : MonoBehaviour
 {
+
+    public void Start()
+    {
+        GameObject.Find("Canvas").GetComponent<GameManager>().joueurJoue.GetComponent<Text>().text = "Joueur 1 joue..";
+    }
+
     public void Select()
     {
 
@@ -28,6 +34,7 @@ public class ButtonScript : MonoBehaviour
         }
     }
 
+
     public void JcJScript()
     {
         Sprite sprite = GameObject.Find("Canvas").GetComponent<GameManager>().xSprite;
@@ -37,6 +44,10 @@ public class ButtonScript : MonoBehaviour
         {
             myLocalMark = "O";
             sprite = GameObject.Find("Canvas").GetComponent<GameManager>().oSprite;
+            GameObject.Find("Canvas").GetComponent<GameManager>().joueurJoue.GetComponent<Text>().text = "Joueur 1 joue..";
+        } else
+        {
+            GameObject.Find("Canvas").GetComponent<GameManager>().joueurJoue.GetComponent<Text>().text = "Joueur 2 joue..";
         }
         if (transform.Find("Text").GetComponent<Text>().text == "")
         {
@@ -61,8 +72,6 @@ public class ButtonScript : MonoBehaviour
             }
         }
         GameObject.Find("Canvas").GetComponent<GameManager>().jcJCounter += 1;
-
-        
     }
 
 }

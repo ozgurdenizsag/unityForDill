@@ -15,10 +15,6 @@ public class GameManager : MonoBehaviour
     public Text joueurJoue;
     public string isIa = "non";
 
-    public void Start()
-    {
-        isIa = "oui";
-    }
 
     public void ComputerPlay() {
         StartCoroutine(ExampleCoroutine());
@@ -29,14 +25,16 @@ public class GameManager : MonoBehaviour
         joueurJoue.GetComponent<Text>().text = "FSF joue..";
         yield return new WaitForSeconds(2);
         ComputerPlayed();
-        joueurJoue.GetComponent<Text>().text = "Joueur 1 joue..";
+        joueurJoue.GetComponent<Text>().text = "FSF à joué !";
+        yield return new WaitForSeconds(1);
+        joueurJoue.GetComponent<Text>().text = "Tu joues..";
     }
 
     public void ComputerPlayed()
     {
         MajChoice();
         int nr = ai.BestMove("O", matrix);
-
+        isIa = "oui";
         GameObject.Find(nr.ToString()).transform.Find("Text").GetComponent<Text>().text = "O";
         matrix[nr] = "O";
         Sprite sprite = GameObject.Find("Canvas").GetComponent<GameManager>().oSprite;
@@ -100,20 +98,27 @@ public class GameManager : MonoBehaviour
         GameOver.SetActive(true);
         if ("X".Equals(winner))
         {
-            gagnant = "Joueur 1";
+            if ("oui".Equals(isIa))
+            {
+                gagnant = "Tu as gagné !";
+            }
+            else
+            {
+                gagnant = "Joueur 1 a gagné";
+            }
         } else
         {
             if("oui".Equals(isIa))
             {
-                gagnant = "FSF";
+                gagnant = "FSF a gagné";
             }else
             {
-                gagnant = "Joueur 2";
+                gagnant = "Joueur 2 a gagné";
             }
             
         }
         joueurJoue.enabled = false;
-        GameOver.transform.transform.Find("Text").GetComponent<Text>().text = "Gagnant " + gagnant;
+        GameOver.transform.transform.Find("Text").GetComponent<Text>().text = gagnant;
         
     }
 

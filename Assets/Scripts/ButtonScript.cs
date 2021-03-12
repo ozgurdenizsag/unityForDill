@@ -2,18 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class ButtonScript : MonoBehaviour
 {
 
     public void Start()
     {
-        GameObject.Find("Canvas").GetComponent<GameManager>().joueurJoue.GetComponent<Text>().text = "Joueur 1 joue..";
+        if (SceneManager.GetActiveScene().name.Equals("IAScene"))
+        {
+            GameObject.Find("Canvas").GetComponent<GameManager>().joueurJoue.GetComponent<Text>().text = "Tu joues..";
+        } else
+        {
+            GameObject.Find("Canvas").GetComponent<GameManager>().joueurJoue.GetComponent<Text>().text = "Joueur 1 joue..";
+        }
+            
     }
 
     public void Select()
     {
-
         Sprite sprite = GameObject.Find("Canvas").GetComponent<GameManager>().xSprite;
         string btnName = gameObject.name + "";
         if (transform.Find("Text").GetComponent<Text>().text == "")
@@ -23,15 +30,20 @@ public class ButtonScript : MonoBehaviour
             GameObject.Find("Canvas").GetComponent<GameManager>().matrix[index] = "X";
             Button myButton = GameObject.Find(btnName).GetComponent<Button>();
             myButton.image.sprite = sprite;
-        }
-        if (GameObject.Find("Canvas").GetComponent<GameManager>().Verification("X"))
+            if (GameObject.Find("Canvas").GetComponent<GameManager>().Verification("X"))
+            {
+                GameObject.Find("Canvas").GetComponent<GameManager>().ShowPanel("X");
+            }
+            else
+            {
+                
+                GameObject.Find("Canvas").GetComponent<GameManager>().ComputerPlay();
+            }
+        } else
         {
-            GameObject.Find("Canvas").GetComponent<GameManager>().ShowPanel("X");
+            GameObject.Find("MissClickButton").GetComponent<MissClickScript>().MissClick();
         }
-        else
-        {
-            GameObject.Find("Canvas").GetComponent<GameManager>().ComputerPlay();
-        }
+        
     }
 
 
